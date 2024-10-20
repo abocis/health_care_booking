@@ -1,7 +1,7 @@
 package health.care.booking.services;
 
 
-import health.care.booking.models.Role;
+import health.care.booking.Enums.Role;
 import health.care.booking.models.User;
 import health.care.booking.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

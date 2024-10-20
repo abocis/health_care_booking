@@ -1,5 +1,6 @@
 package health.care.booking.models;
 
+import health.care.booking.Enums.Status;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
