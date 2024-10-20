@@ -103,7 +103,13 @@ public class AuthController {
         if (userService.existsByUsername(request.getUsername())) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
-                    .body("Username is already taken");
+                    .body("Username is already exist");
+        }
+        //check it email already exists
+        if(userService.existsByEmail(request.getEmail())){
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("Username or email is already exist");
         }
 
         // map the registration request to a User entity
