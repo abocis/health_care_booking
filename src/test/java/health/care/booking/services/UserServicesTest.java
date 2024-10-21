@@ -10,10 +10,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
@@ -68,7 +68,52 @@ public class UserServicesTest {
         verify(userRepository, times(1)).save(user);
 
     }
+    // test create user not succes email already exist
+    @Test
+    public void testCreateUser_notSuccess_emailExist(){
+        //arrange
+        User user = new User();
+        user.setFirstName("Abou");
+        user.setLastName("CISSE");
+        user.setEmail("abou@cisse.com");
+        user.setPassword("password");
+        user.setRoles(Set.of(Role.USER));
 
+        //let's  say email already exist
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+
+        //ACT
+        boolean emailExists = userService.existsByEmail(user.getEmail());
+
+        //Assert
+        assertTrue(emailExists, "Email should exist ");
+        verify(userRepository, never()).save(any(User.class)); //save is never called
+    }
+
+
+
+    @Test
+    //test creste  user not exist username already exist
+    public void testCreateUser_notSuccess_usernameExist(){
+
+        User user = new User();
+        user.setFirstName("Abou");
+        user.setLastName("CISSE");
+        user.setEmail("abou@cisse.com");
+        user.setPassword("password");
+        user.setRoles(Set.of(Role.USER));
+
+
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+
+        //ACT
+        boolean usernameExists = userService.existsByUsername(user.getUsername());
+
+
+        //assert
+        assertTrue(usernameExists, "Username should exist ");
+        verify(userRepository, never()).save(any(User.class));
+    }
 
 
 }
