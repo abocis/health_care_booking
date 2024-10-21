@@ -5,7 +5,10 @@ import health.care.booking.respository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,8 +55,40 @@ public class AppointmentService {
         }
 
         appointment.setDateTime(updatedAppointment.getDateTime());
-        appointment.setStatus(updatedAppointment.getStatus());
+        appointment.setIsOpen(updatedAppointment.getIsOpen());
 
         return appointmentRepository.save(appointment);
     }
+ // Metod för tillgängliga tider. Metod kan filtrera bort redan bokade tider.
+    public List<LocalDateTime> getAvailableTimes(String caregiverId, LocalDate date){
+        List<Appointment> appointments = appointmentRepository.findByCaregiverId(caregiverId);
+        List<LocalDateTime> availableTimes = new ArrayList<>();
+
+        List<LocalDateTime> predefinedTimes = getPredefinedTimes(date);
+
+        for (LocalDateTime time : predefinedTimes) {
+            boolean isBooked = appointments.stream()
+                    .anyMatch(appointment -> appointment.getDateTime().equals(time));
+            if (!isBooked){
+                availableTimes.add(time);
+            }
+        }
+        return availableTimes;
+    }
+
+
+
+ // metod som returnerar en lista över fördefinierade tillgängliga tider
+    public List<LocalDateTime> getPredefinedTimes(LocalDate date) {
+        List<LocalDateTime> times = new ArrayList<>();
+
+        for (int hour = 9; hour <= 16; hour++) {
+            times.add(LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), hour, 0));
+        }
+
+        return times;
+    }
+
+
+
 }

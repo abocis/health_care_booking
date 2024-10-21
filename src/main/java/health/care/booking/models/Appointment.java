@@ -22,7 +22,7 @@ public class Appointment {
     private LocalDateTime dateTime;
 
     // använder Enum Status klassen
-    private Status status;
+    private Boolean isOpen;
 
     public Appointment() {
     }
@@ -59,11 +59,11 @@ public class Appointment {
         this.dateTime = dateTime;
     }
 
-    public Status getStatus() {
-        return status;
+    public boolean getIsOpen() {
+        return isOpen;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setIsOpen(boolean isOpen) {
+        this.isOpen = isOpen;
     }
 }
