@@ -87,6 +87,7 @@ public class UserServicesTest {
 
         //Assert
         assertTrue(emailExists, "Email should exist ");
+
         verify(userRepository, never()).save(any(User.class)); //save is never called
     }
 
@@ -112,6 +113,7 @@ public class UserServicesTest {
 
         //assert
         assertTrue(usernameExists, "Username should exist ");
+
         verify(userRepository, never()).save(any(User.class));
     }
 
