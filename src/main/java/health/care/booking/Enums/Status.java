@@ -1,4 +1,4 @@
-package health.care.booking.models;
+package health.care.booking.Enums;
 
 public enum Status {
     SCHEDULED,

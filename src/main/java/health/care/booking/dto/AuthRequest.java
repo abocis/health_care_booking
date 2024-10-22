@@ -28,4 +28,11 @@ public class AuthRequest {
         return password;
     }
 
+    public void setUsername(@NotBlank String username) {
+        this.username = username;
+    }
+
+    public void setPassword(@NotBlank String password) {
+        this.password = password;
+    }
 }

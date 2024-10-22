@@ -1,6 +1,6 @@
 package health.care.booking.dto;
 
-import health.care.booking.models.Role;
+import health.care.booking.Enums.Role;
 import java.util.Set;
 
 public class AuthResponse {

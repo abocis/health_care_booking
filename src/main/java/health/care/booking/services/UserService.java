@@ -1,7 +1,7 @@
 package health.care.booking.services;
 
 
-import health.care.booking.models.Role;
+import health.care.booking.Enums.Role;
 import health.care.booking.models.User;
 import health.care.booking.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void registerUser(User user) {
+    public User registerUser(User user) {
         // hash the password
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -29,7 +29,7 @@ public class UserService {
             user.setRoles(Set.of(Role.USER));
         }
 
-        userRepository.save(user);
+       return userRepository.save(user);
     }
 
     public User findByUsername(String username) {
@@ -39,5 +39,10 @@ public class UserService {
 
     public boolean existsByUsername(String username) {
         return userRepository.findByUsername(username).isPresent();
+    }
+
+    //check if email exist
+    public boolean existsByEmail(String email){
+        return userRepository.findByEmail(email).isPresent();
     }
 }
