@@ -1,7 +1,6 @@
 package health.care.booking.controllers;
 
 
-import health.care.booking.models.Appointment;
 import health.care.booking.models.Time;
 import health.care.booking.services.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +23,16 @@ public class TimeController {
     }
 
 
-
-    // PUT
-    @PutMapping("/update")
+    // Update
+    @PutMapping("/update/{caregiverId}/{timeId}")
     public ResponseEntity<Time> updateTime(
             @PathVariable String caregiverId,
-            @PathVariable String time,
+            @PathVariable String timeId,
             @RequestBody Time updatedTime) {
-        Time time = timeService.updateTime(timeId, updatedTime, caregiverId);
-        return ResponseEntity.ok(time);
+        Time updatedTimeResult = timeService.updateTime(timeId, updatedTime, caregiverId);
+        return ResponseEntity.ok(updatedTimeResult);
     }
+
 
 
 
