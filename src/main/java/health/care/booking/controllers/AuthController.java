@@ -42,6 +42,7 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    //post login
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody AuthRequest request,
                                    HttpServletResponse response) {
@@ -95,7 +96,7 @@ public class AuthController {
         }
     }
 
-
+    //post register.
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
 
