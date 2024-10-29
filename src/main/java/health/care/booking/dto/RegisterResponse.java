@@ -1,7 +1,7 @@
 package health.care.booking.dto;
 
 
-import health.care.booking.models.Role;
+import health.care.booking.Enums.Role;
 
 import java.util.Set;
 
@@ -9,15 +9,21 @@ public class RegisterResponse {
 
     private String message;
     private String username;
+    private String firstName;
+    private String lastName;
+    private String email;
     private Set<Role> roles;
 
     public RegisterResponse() {
     }
 
-    public RegisterResponse(String message, String username, Set<Role> roles) {
+    public RegisterResponse(String message, String username, Set<Role> roles, String firstName, String lastName, String email)  {
         this.message = message;
         this.username = username;
         this.roles = roles;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
     }
 
     public String getMessage() {

@@ -4,7 +4,7 @@ import health.care.booking.dto.AuthRequest;
 import health.care.booking.dto.AuthResponse;
 import health.care.booking.dto.RegisterRequest;
 import health.care.booking.dto.RegisterResponse;
-import health.care.booking.models.Role;
+import health.care.booking.Enums.Role;
 import health.care.booking.models.User;
 import health.care.booking.services.CustomUserDetailsService;
 import health.care.booking.services.UserService;
@@ -42,6 +42,7 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    //post login
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody AuthRequest request,
                                    HttpServletResponse response) {
@@ -95,7 +96,7 @@ public class AuthController {
         }
     }
 
-
+    //post register.
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
 
@@ -103,13 +104,22 @@ public class AuthController {
         if (userService.existsByUsername(request.getUsername())) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
-                    .body("Username is already taken");
+                    .body("Username is already exist");
+        }
+        //check it email already exists
+        if(userService.existsByEmail(request.getEmail())){
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("Username or email is already exist");
         }
 
         // map the registration request to a User entity
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
 
         // assign roles
         if (request.getRoles() == null || request.getRoles().isEmpty()) {
@@ -125,7 +135,10 @@ public class AuthController {
         RegisterResponse regResponse = new RegisterResponse(
                 "User registered successfully",
                 user.getUsername(),
-                user.getRoles()
+                user.getRoles(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail()
         );
 
         return ResponseEntity.ok(regResponse);
