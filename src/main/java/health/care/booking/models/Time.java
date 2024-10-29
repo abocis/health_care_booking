@@ -4,31 +4,21 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
-import java.util.List;
+@Document(collection = "time")
+public class Time {
 
-@Document(collection = "availability")
-public class Availability {
     @Id
     private String id;
 
-    // en doktor/sjuksköterska sätter sig available
     @DBRef
     private User caregiverId;
 
-    // en lista med tider som är tillgängliga
-    // ni kan ändra implementaionen om ni hittar ett enklare sätt
-    private List<LocalDateTime> availableSlots;
+    private Time time;
 
-    public Availability() {
-    }
 
     public String getId() {
         return id;
     }
-
-
-
 
     public void setId(String id) {
         this.id = id;
@@ -42,11 +32,11 @@ public class Availability {
         this.caregiverId = caregiverId;
     }
 
-    public List<LocalDateTime> getAvailableSlots() {
-        return availableSlots;
+    public Time getTime() {
+        return time;
     }
 
-    public void setAvailableSlots(List<LocalDateTime> availableSlots) {
-        this.availableSlots = availableSlots;
+    public void setTime(Time time) {
+        this.time = time;
     }
 }
