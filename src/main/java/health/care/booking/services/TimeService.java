@@ -1,6 +1,6 @@
 package health.care.booking.services;
 
-import health.care.booking.models.Time;
+import health.care.booking.models.TimeSlots;
 import health.care.booking.respository.TimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ public class TimeService {
     private TimeRepository timeRepository;
 
     // CREATE
-    public Time createTime(Time time) {
+    public TimeSlots createTime(TimeSlots time) {
         System.out.println("Available time has been created");
 
         return time;
@@ -22,8 +22,8 @@ public class TimeService {
 
 
     // Update
-    public Time updateTime(String timeId, Time updatedTime, String caregiverId) {
-        Time time = timeRepository.findById(timeId)
+    public TimeSlots updateTime(String timeId, TimeSlots updatedTime, String caregiverId) {
+        TimeSlots time = timeRepository.findById(timeId)
                 .orElseThrow(() -> new RuntimeException("Time not found"));
 
         if (!time.getCaregiverId().getId().equals(caregiverId)) {
@@ -37,13 +37,13 @@ public class TimeService {
 
 
     // Get all
-    public List<Time> getAllTimes() {
+    public List<TimeSlots> getAllTimes() {
         return timeRepository.findAll();
     }
 
     // delete by id
     public void deleteTime(String timeId, String userId) {
-        Time time = timeRepository.findById(timeId)
+        TimeSlots time = timeRepository.findById(timeId)
                 .orElseThrow(() -> new RuntimeException("Time not found"));
 
         // validation of user to delete
@@ -55,7 +55,7 @@ public class TimeService {
     }
 
     // get by id
-    public Time getTimeById(String id) {
+    public TimeSlots getTimeById(String id) {
         return timeRepository.findById(id).get();
     }
 

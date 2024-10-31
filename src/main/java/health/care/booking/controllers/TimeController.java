@@ -1,7 +1,7 @@
 package health.care.booking.controllers;
 
 
-import health.care.booking.models.Time;
+import health.care.booking.models.TimeSlots;
 import health.care.booking.services.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,25 +19,25 @@ public class TimeController {
 
     // POST
     @PostMapping
-    public ResponseEntity<Time> createTime(@RequestBody Time time) {
-        Time createdTime = timeService.createTime(time);
+    public ResponseEntity<TimeSlots> createTime(@RequestBody TimeSlots time) {
+        TimeSlots createdTime = timeService.createTime(time);
         return ResponseEntity.ok(createdTime);
     }
 
 
     // Update
     @PutMapping("/update/{caregiverId}/{timeId}")
-    public ResponseEntity<Time> updateTime(
+    public ResponseEntity<TimeSlots> updateTime(
             @PathVariable String caregiverId,
             @PathVariable String timeId,
-            @RequestBody Time updatedTime) {
-        Time updatedTimeResult = timeService.updateTime(timeId, updatedTime, caregiverId);
+            @RequestBody TimeSlots updatedTime) {
+        TimeSlots updatedTimeResult = timeService.updateTime(timeId, updatedTime, caregiverId);
         return ResponseEntity.ok(updatedTimeResult);
     }
 
    // get all
    @GetMapping("/all")
-   public List<Time> getAllTimes() {
+   public List<TimeSlots> getAllTimes() {
        return timeService.getAllTimes();
    }
 
@@ -50,7 +50,7 @@ public class TimeController {
 
     // get time by id
     @GetMapping("/{timeId}")
-    public Time getTimeById(String timeId) {
+    public TimeSlots getTimeById(String timeId) {
         return timeRepository.findById(timeId)
                 .orElseThrow(() -> new EntityNotFoundException("Time not found with ID: " + timeId));
     }

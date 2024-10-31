@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "time")
-public class Time {
+public class TimeSlots {
 
     @Id
     private String id;
@@ -13,7 +13,7 @@ public class Time {
     @DBRef
     private User caregiverId;
 
-    private Time time;
+    private TimeSlots timeSlots;
 
 
     public String getId() {
@@ -32,11 +32,11 @@ public class Time {
         this.caregiverId = caregiverId;
     }
 
-    public Time getTime() {
-        return time;
+    public TimeSlots getTime() {
+        return timeSlots;
     }
 
-    public void setTime(Time time) {
-        this.time = time;
+    public void setTime(TimeSlots time) {
+        this.timeSlots = time;
     }
 }
