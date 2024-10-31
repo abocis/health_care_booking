@@ -42,7 +42,7 @@ public class Appointment {
     public void setPatientId(User patientId) {
         this.patientId = patientId;
     }
-
+0
     public User getCaregiverId() {
         return caregiverId;
     }
