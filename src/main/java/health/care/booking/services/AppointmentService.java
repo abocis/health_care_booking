@@ -34,9 +34,6 @@ public class AppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
 
-
-
-
         // Check if the user is either the patient or the caregiver
         if (!appointment.getPatientId().getId().equals(userId) && !appointment.getCaregiverId().getId().equals(userId)) {
             throw new RuntimeException("Only patient or caregiver can cancel this appointment");
