@@ -1,6 +1,5 @@
 package health.care.booking.controllers;
 
-
 import health.care.booking.models.TimeSlots;
 import health.care.booking.services.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,21 +8,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
-@RequestMapping(value="/maketime")
+@RequestMapping("/api/timeslot")
 public class TimeController {
 
     @Autowired
-    TimeService timeService;
+    private TimeService timeService;
 
-    // POST
-    @PostMapping
+    // create POST
+    @PostMapping("/create")
     public ResponseEntity<TimeSlots> createTime(@RequestBody TimeSlots time) {
         TimeSlots createdTime = timeService.createTime(time);
         return ResponseEntity.ok(createdTime);
     }
-
 
     // Update
     @PutMapping("/update/{caregiverId}/{timeId}")
@@ -35,25 +32,23 @@ public class TimeController {
         return ResponseEntity.ok(updatedTimeResult);
     }
 
-   // get all
-   @GetMapping("/all")
-   public List<TimeSlots> getAllTimes() {
-       return timeService.getAllTimes();
-   }
+    // Get all
+    @GetMapping("/all")
+    public List<TimeSlots> getAllTimes() {
+        return timeService.getAllTimes();
+    }
 
-    // delete time by id
+    // Delete time by id
     @DeleteMapping("/{timeId}")
     public ResponseEntity<Void> deleteTime(@PathVariable String timeId, @RequestParam String userId) {
         timeService.deleteTime(timeId, userId);
         return ResponseEntity.noContent().build();
     }
 
-    // get time by id
+    // Get time by id
     @GetMapping("/{timeId}")
-    public TimeSlots getTimeById(String timeId) {
-        return timeRepository.findById(timeId)
-                .orElseThrow(() -> new EntityNotFoundException("Time not found with ID: " + timeId));
+    public ResponseEntity<TimeSlots> getTimeById(@PathVariable String timeId) {
+        TimeSlots time = timeService.getTimeById(timeId);
+        return ResponseEntity.ok(time);
     }
-
-
 }

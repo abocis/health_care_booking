@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalTime;
+
 @Document(collection = "time")
 public class TimeSlots {
 
@@ -13,9 +15,11 @@ public class TimeSlots {
     @DBRef
     private User caregiverId;
 
-    private TimeSlots timeSlots;
+    private LocalTime time;
 
 
+
+    // Getters and Setters
     public String getId() {
         return id;
     }
@@ -32,11 +36,11 @@ public class TimeSlots {
         this.caregiverId = caregiverId;
     }
 
-    public TimeSlots getTime() {
-        return timeSlots;
+    public LocalTime getTime() {
+        return time;
     }
 
-    public void setTime(TimeSlots time) {
-        this.timeSlots = time;
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 }
