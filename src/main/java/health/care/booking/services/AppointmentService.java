@@ -1,8 +1,14 @@
 package health.care.booking.services;
 
+import health.care.booking.Enums.Status;
+import health.care.booking.dto.AppointmentDTO;
 import health.care.booking.models.Appointment;
+import health.care.booking.models.Availability;
+import health.care.booking.models.User;
 import health.care.booking.respository.AppointmentRepository;
+import health.care.booking.respository.AvailabilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.mongo.StandardMongoClientSettingsBuilderCustomizer;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,11 +19,34 @@ public class AppointmentService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
+    @Autowired
+    private AvailabilityRepository availabilityRepository;
+    @Autowired
+    private StandardMongoClientSettingsBuilderCustomizer standardMongoSettingsCustomizer;
+
+
     // CREATE
-    public Appointment createAppointment(Appointment appointment) {
-        System.out.println("Appointment has been created");
+    public Appointment createAppointment(AppointmentDTO appointmentDTO) {
+        Availability availability = availabilityRepository.findByCaregiverId(appointmentDTO.getCaregiverId())
+                .orElseThrow(()-> new RuntimeException("caregiver availability not found"));
+
+        if (!availability.getAvailableSlots().contains(appointmentDTO.getDateTime())){
+            throw new RuntimeException("selected time not available ");
+        }
+
+        availability.getAvailableSlots().remove(appointmentDTO.getDateTime());
+        availabilityRepository.save(availability);
+
+        Appointment appointment = new Appointment();
+        appointment.setPatientId(new User(appointmentDTO.getPatientId()));
+        appointment.setCaregiverId(new User(appointmentDTO.getCaregiverId()));
+        appointment.setDateTime(appointmentDTO.getDateTime());
+        appointment.setStatus(Status.SCHEDULED);
+
         return appointmentRepository.save(appointment);
+
     }
+
 
     // GET all appointments for patient
     public ArrayList<Appointment> getUserAppointments(String patientId) {

@@ -35,6 +35,9 @@ public class User {
         this.roles = roles;
     }
 
+    public User(String patientId) {
+    }
+
     public String getUsername() {
         return username;
     }
