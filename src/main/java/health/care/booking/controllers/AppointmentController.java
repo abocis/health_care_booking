@@ -1,7 +1,12 @@
 package health.care.booking.controllers;
 
+import health.care.booking.dto.AppointmentDTO;
+import health.care.booking.models.Appointment;
 import health.care.booking.services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,15 +18,14 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
 
-/**
-
     // POST
     @PostMapping
     public ResponseEntity<Appointment> createAppointment(@RequestBody AppointmentDTO appointmentDTO) {
-        Appointment createdAppointment = appointmentService.createAppointment(appointmentDTO);
-        return ResponseEntity.ok(createdAppointment);
+        Appointment appointment = appointmentService.createAppointment(appointmentDTO);
+        return ResponseEntity.ok(appointment);
     }
 
+/**
     // GET all appointments for patient
     @GetMapping("/patient/{patientId}")
     public ResponseEntity<List<Appointment>> getUserAppointments(@PathVariable String patientId) {
