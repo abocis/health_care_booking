@@ -20,6 +20,7 @@ public class User {
     private String lastName;
     private String email;
 
+
     private Set<Role> roles;
 
     public User() {
@@ -36,6 +37,10 @@ public class User {
     }
 
     public User(String patientId) {
+    }
+
+    public User(User caregiverId) {
+
     }
 
     public String getUsername() {

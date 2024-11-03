@@ -1,18 +1,10 @@
 package health.care.booking.services;
 
-import health.care.booking.Enums.Status;
-import health.care.booking.dto.AppointmentDTO;
-import health.care.booking.models.Appointment;
-import health.care.booking.models.Availability;
-import health.care.booking.models.User;
 import health.care.booking.respository.AppointmentRepository;
 import health.care.booking.respository.AvailabilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mongo.StandardMongoClientSettingsBuilderCustomizer;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -24,7 +16,7 @@ public class AppointmentService {
     @Autowired
     private StandardMongoClientSettingsBuilderCustomizer standardMongoSettingsCustomizer;
 
-
+/**
     // CREATE
     public Appointment createAppointment(AppointmentDTO appointmentDTO) {
         Availability availability = availabilityRepository.findByCaregiverId(appointmentDTO.getCaregiverId())
@@ -85,4 +77,6 @@ public class AppointmentService {
 
         return appointmentRepository.save(appointment);
     }
+
+ */
 }

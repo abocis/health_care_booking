@@ -1,10 +1,10 @@
 package health.care.booking.controllers;
 
+import health.care.booking.Enums.Role;
 import health.care.booking.dto.AuthRequest;
 import health.care.booking.dto.AuthResponse;
 import health.care.booking.dto.RegisterRequest;
 import health.care.booking.dto.RegisterResponse;
-import health.care.booking.Enums.Role;
 import health.care.booking.models.User;
 import health.care.booking.services.CustomUserDetailsService;
 import health.care.booking.services.UserService;
@@ -41,6 +41,7 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+
 
     //post login
     @PostMapping("/login")
@@ -121,7 +122,9 @@ public class AuthController {
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
 
-        // assign roles
+
+
+        // assign roles user om inget annat omges
         if (request.getRoles() == null || request.getRoles().isEmpty()) {
             user.setRoles(Set.of(Role.USER));
         } else {
