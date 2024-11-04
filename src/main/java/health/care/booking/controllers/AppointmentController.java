@@ -5,10 +5,9 @@ import health.care.booking.models.Appointment;
 import health.care.booking.services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/appointments")
@@ -25,7 +24,7 @@ public class AppointmentController {
         return ResponseEntity.ok(appointment);
     }
 
-/**
+
     // GET all appointments for patient
     @GetMapping("/patient/{patientId}")
     public ResponseEntity<List<Appointment>> getUserAppointments(@PathVariable String patientId) {
@@ -60,5 +59,5 @@ public class AppointmentController {
         return ResponseEntity.noContent().build();
     }
 
-    */
+
 }

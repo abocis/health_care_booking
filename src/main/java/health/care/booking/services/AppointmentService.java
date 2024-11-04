@@ -10,6 +10,9 @@ import health.care.booking.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 @Service
 public class AppointmentService {
     @Autowired
@@ -52,8 +55,6 @@ public class AppointmentService {
 
     }
 
-    /**
-
     // GET all appointments for patient
     public ArrayList<Appointment> getUserAppointments(String patientId) {
         return (ArrayList<Appointment>) appointmentRepository.findByPatientId(patientId);
@@ -92,5 +93,5 @@ public class AppointmentService {
         return appointmentRepository.save(appointment);
     }
 
- */
+
 }
