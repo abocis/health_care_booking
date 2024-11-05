@@ -8,6 +8,8 @@ public class AuthResponse {
     private String username;
     private Set<Role> roles;
 
+    private String userId;
+
     public AuthResponse() {
     }
 
@@ -15,6 +17,22 @@ public class AuthResponse {
         this.jwtToken = jwtToken;
         this.username = username;
         this.roles = roles;
+
+    }
+
+    public AuthResponse(String jwtToken, String username, Set<Role> roles, String userId) {
+        this.jwtToken = jwtToken;
+        this.username = username;
+        this.roles = roles;
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getJwtToken() {
