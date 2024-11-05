@@ -95,7 +95,7 @@ public class UserServicesTest {
         boolean emailExists = userService.existsByEmail(user.getEmail());
 
         //Assert
-        assertTrue(emailExists, "Email should exist ");
+        assertTrue(emailExists, "Email should exist hejhej ");
 
         verify(userRepository, never()).save(any(User.class)); //save is never called
     }
