@@ -8,7 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.Optional;
 import java.util.Set;
@@ -16,7 +19,12 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-
+@SpringBootTest
+@ActiveProfiles("test")  // Activate the test profile
+@TestPropertySource(properties = {
+        "jwt.secret=hfaiehfisehfosndfejndfeswljrfeowfnjehwbewios4ngvhtrwglp4rkledf",
+        "jwt.expirationMs=36000000"
+})
 public class UserServicesTest {
 
     @Mock
@@ -27,6 +35,7 @@ public class UserServicesTest {
 
     @InjectMocks
     private UserService userService;
+
     @BeforeEach
     void setup(){
         MockitoAnnotations.openMocks(this);
