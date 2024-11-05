@@ -1,9 +1,14 @@
 package health.care.booking.dto;
 
 import health.care.booking.Enums.Role;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 import java.util.Set;
 
 public class AuthResponse {
+
+    @DBRef
+    private String id;
     private String jwtToken;
     private String username;
     private Set<Role> roles;
@@ -11,10 +16,11 @@ public class AuthResponse {
     public AuthResponse() {
     }
 
-    public AuthResponse(String jwtToken, String username, Set<Role> roles) {
+    public AuthResponse(String id, String jwtToken, String username, Set<Role> roles) {
         this.jwtToken = jwtToken;
         this.username = username;
         this.roles = roles;
+        this.id = id;
     }
 
     public String getJwtToken() {
@@ -40,5 +46,14 @@ public class AuthResponse {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }
 

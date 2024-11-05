@@ -181,7 +181,8 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(
                 "Authenticated",
                 user.getUsername(),
-                user.getRoles()
+                user.getRoles(),
+                user.getId()
         ));
     }
 
