@@ -1,7 +1,7 @@
 package health.care.booking.controllers;
 
+import health.care.booking.dto.AppointmentDTO;
 import health.care.booking.models.Appointment;
-import health.care.booking.respository.AppointmentRepository;
 import health.care.booking.services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +16,14 @@ public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
+
     // POST
     @PostMapping
-    public ResponseEntity<Appointment> createAppointment(@RequestBody Appointment appointment) {
-        Appointment createdAppointment = appointmentService.createAppointment(appointment);
-        return ResponseEntity.ok(createdAppointment);
+    public ResponseEntity<Appointment> createAppointment(@RequestBody AppointmentDTO appointmentDTO) {
+        Appointment appointment = appointmentService.createAppointment(appointmentDTO);
+        return ResponseEntity.ok(appointment);
     }
+
 
     // GET all appointments for patient
     @GetMapping("/patient/{patientId}")
@@ -56,4 +58,6 @@ public class AppointmentController {
         appointmentService.deleteAppointment(appointmentId, userId);
         return ResponseEntity.noContent().build();
     }
+
+
 }

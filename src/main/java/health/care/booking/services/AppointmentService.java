@@ -1,7 +1,12 @@
 package health.care.booking.services;
 
+import health.care.booking.Enums.Status;
+import health.care.booking.dto.AppointmentDTO;
 import health.care.booking.models.Appointment;
+import health.care.booking.models.Availability;
 import health.care.booking.respository.AppointmentRepository;
+import health.care.booking.respository.AvailabilityRepository;
+import health.care.booking.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +18,41 @@ public class AppointmentService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
+    @Autowired
+    private AvailabilityRepository availabilityRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     // CREATE
-    public Appointment createAppointment(Appointment appointment) {
-        System.out.println("Appointment has been created");
+    public Appointment createAppointment(AppointmentDTO appointmentDTO) {
+
+        Availability availability = availabilityRepository.findByCaregiverId(appointmentDTO.getCaregiverId())
+                .orElseThrow(()-> new RuntimeException("caregiver availability not found"));
+
+        if (!availability.getAvailableSlots().contains(appointmentDTO.getDateTime())){
+            throw new RuntimeException("selected time not available ");
+        }
+
+        //remove slots
+        availability.getAvailableSlots().remove(appointmentDTO.getDateTime());
+        availabilityRepository.save(availability);
+
+        //create new appointement
+        Appointment appointment = new Appointment();
+
+
+        appointment.setCaregiverId(userRepository.findById(appointmentDTO.getCaregiverId())
+                .orElseThrow(() -> new IllegalArgumentException("Caregiver not found with ID: " + appointmentDTO.getCaregiverId())));
+
+        appointment.setPatientId(userRepository.findById(appointmentDTO.getPatientId())
+                .orElseThrow(() -> new IllegalArgumentException("Patient not found with ID: " + appointmentDTO.getPatientId())));
+
+        appointment.setDateTime(appointmentDTO.getDateTime());
+        appointment.setStatus(Status.SCHEDULED);
+
         return appointmentRepository.save(appointment);
+
     }
 
     // GET all appointments for patient
@@ -56,4 +92,6 @@ public class AppointmentService {
 
         return appointmentRepository.save(appointment);
     }
+
+
 }
