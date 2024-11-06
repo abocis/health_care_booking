@@ -10,6 +10,8 @@ import health.care.booking.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AvailabilityServices {
 
@@ -38,5 +40,16 @@ public class AvailabilityServices {
         availability.setAvailableSlots(availabilityDTO.getAvailableSlots());
 
         return availabilityRepository.save(availability);
+    }
+
+    //gett allavailablilitry by id
+
+    public Availability getAvailabilityById(String availabilityId) {
+        return availabilityRepository.findByCaregiverId(availabilityId)
+                .orElseThrow(() -> new IllegalArgumentException("availability nit found"));
+    }
+
+    public List<Availability> getAllAvailability() {
+        return availabilityRepository.findAll();
     }
 }
