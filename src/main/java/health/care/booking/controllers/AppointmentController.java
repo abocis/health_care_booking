@@ -59,5 +59,13 @@ public class AppointmentController {
         return ResponseEntity.noContent().build();
     }
 
+    //Get all apt for a specifik caregiver
+    @GetMapping("/caregiver/{caregiverId}")
+    public ResponseEntity<List<Appointment>> getCaregiverAppointmentsById(@PathVariable String caregiverId) {
+        List<Appointment>appointments = appointmentService.getAppointmentsbyCaregiverId(caregiverId);
+        return ResponseEntity.ok(appointments);
+
+    }
+
 
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,8 +41,6 @@ public class AppointmentService {
 
         //create new appointement
         Appointment appointment = new Appointment();
-
-
         appointment.setCaregiverId(userRepository.findById(appointmentDTO.getCaregiverId())
                 .orElseThrow(() -> new IllegalArgumentException("Caregiver not found with ID: " + appointmentDTO.getCaregiverId())));
 
@@ -69,7 +68,6 @@ public class AppointmentService {
     public void deleteAppointment(String appointmentId, String userId) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
-
         // Check if the user is either the patient or the caregiver
         if (!appointment.getPatientId().getId().equals(userId) && !appointment.getCaregiverId().getId().equals(userId)) {
             throw new RuntimeException("Only patient or caregiver can cancel this appointment");
@@ -91,6 +89,10 @@ public class AppointmentService {
         appointment.setStatus(updatedAppointment.getStatus());
 
         return appointmentRepository.save(appointment);
+    }
+
+    public List<Appointment>getAppointmentsbyCaregiverId(String caregiverId) {
+        return appointmentRepository.findByCaregiverId(caregiverId);
     }
 
 
