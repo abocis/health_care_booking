@@ -1,6 +1,5 @@
 package health.care.booking.controllers;
 
-
 import health.care.booking.dto.AvailabilityDTO;
 import health.care.booking.models.Availability;
 import health.care.booking.services.AvailabilityServices;
@@ -17,22 +16,15 @@ public class AvailabilityController {
     @Autowired
     private AvailabilityServices availabilityServices;
 
+    // Skapa eller uppdatera tillgänglighet med nya tider
     @PostMapping
     public ResponseEntity<Availability> setAvailability(@RequestBody AvailabilityDTO availabilityDTO) {
-
-        Availability availability = availabilityServices.saveAvailability(availabilityDTO);
-
+        Availability availability = availabilityServices.saveOrUpdateAvailability(availabilityDTO);
         return ResponseEntity.ok(availability);
     }
 
-    //get all available apointement to an caregiver
-    @GetMapping("/{id}")
-    public ResponseEntity<Availability> getAvailability(@PathVariable String id) {
-        Availability availability = availabilityServices.getAvailabilityById(id);
-        return ResponseEntity.ok(availability);
-    }
-
-    @GetMapping("all")
+    // Hämta alla tillgängligheter
+    @GetMapping("/all")
     public ResponseEntity<List<Availability>> getAllAvailability() {
         List<Availability> availabilities = availabilityServices.getAllAvailability();
         return ResponseEntity.ok(availabilities);

@@ -8,13 +8,6 @@ public class AvailabilityDTO {
     private String caregiverId;
     private List<LocalDateTime> availableSlots;
 
-    public AvailabilityDTO() {
-    }
-
-    public AvailabilityDTO(List<LocalDateTime> availableSlots, String caregiverId) {
-        this.availableSlots = availableSlots;
-        this.caregiverId = caregiverId;
-    }
 
     public String getCaregiverId() {
         return caregiverId;

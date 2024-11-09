@@ -1,7 +1,5 @@
 package health.care.booking.services;
 
-
-import health.care.booking.Enums.Role;
 import health.care.booking.dto.AvailabilityDTO;
 import health.care.booking.models.Availability;
 import health.care.booking.models.User;
@@ -11,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AvailabilityServices {
@@ -22,32 +21,27 @@ public class AvailabilityServices {
     private UserRepository userRepository;
 
 
-    public Availability saveAvailability(AvailabilityDTO availabilityDTO) {
+    public Availability saveOrUpdateAvailability(AvailabilityDTO availabilityDTO) {
 
-        //check
         User caregiver = userRepository.findById(availabilityDTO.getCaregiverId())
-                .orElseThrow(() -> new IllegalArgumentException("caregiver not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Caregiver not found"));
 
-        // test code!! see if it worked Check if the caregiver has the ADMIN role
-        if (!caregiver.getRoles().contains(Role.ADMIN)) {
-            throw new IllegalArgumentException("User is not an admin and cannot set availability.");
-        }
 
-        //create availability and set the caregiver and available slots
         Availability availability = new Availability();
-
         availability.setCaregiverId(caregiver);
-        availability.setAvailableSlots(availabilityDTO.getAvailableSlots());
+
+
+        Optional<Availability> existingAvailability = availabilityRepository.findByCaregiverId(availabilityDTO.getCaregiverId());
+        if (existingAvailability.isPresent()) {
+            availability = existingAvailability.get();
+            availability.getAvailableSlots().addAll(availabilityDTO.getAvailableSlots());
+        } else {
+            availability.setAvailableSlots(availabilityDTO.getAvailableSlots());
+        }
 
         return availabilityRepository.save(availability);
     }
 
-    //gett allavailablilitry by id
-
-    public Availability getAvailabilityById(String availabilityId) {
-        return availabilityRepository.findByCaregiverId(availabilityId)
-                .orElseThrow(() -> new IllegalArgumentException("availability nit found"));
-    }
 
     public List<Availability> getAllAvailability() {
         return availabilityRepository.findAll();
