@@ -26,33 +26,36 @@ public class AppointmentService {
     private UserRepository userRepository;
 
     // CREATE
+
     public Appointment createAppointment(AppointmentDTO appointmentDTO) {
 
-        Availability availability = availabilityRepository.findByCaregiverId(appointmentDTO.getCaregiverId())
-                .orElseThrow(()-> new RuntimeException("caregiver availability not found"));
-
-        if (!availability.getAvailableSlots().contains(appointmentDTO.getDateTime())){
-            throw new RuntimeException("selected time not available ");
+        if (appointmentDTO.getCaregiverId() == null || appointmentDTO.getPatientId() == null) {
+            throw new IllegalArgumentException("--");
         }
+        Availability availability = availabilityRepository.findByCaregiverId(appointmentDTO.getCaregiverId())
+                .orElseThrow(() -> new RuntimeException("Caregiver availability not found"));
 
-        //remove slots
+        // Check if the time slot is available
+        if (!availability.getAvailableSlots().contains(appointmentDTO.getDateTime())) {
+            throw new RuntimeException("Selected time is no longer available");
+        }
+        // Remove the booked time slot from the caregiver's availability
         availability.getAvailableSlots().remove(appointmentDTO.getDateTime());
         availabilityRepository.save(availability);
 
-        //create new appointement
+
+        // Create the new appointment
         Appointment appointment = new Appointment();
         appointment.setCaregiverId(userRepository.findById(appointmentDTO.getCaregiverId())
                 .orElseThrow(() -> new IllegalArgumentException("Caregiver not found with ID: " + appointmentDTO.getCaregiverId())));
-
         appointment.setPatientId(userRepository.findById(appointmentDTO.getPatientId())
                 .orElseThrow(() -> new IllegalArgumentException("Patient not found with ID: " + appointmentDTO.getPatientId())));
-
         appointment.setDateTime(appointmentDTO.getDateTime());
         appointment.setStatus(Status.SCHEDULED);
 
         return appointmentRepository.save(appointment);
-
     }
+
 
     // GET all appointments for patient
     public ArrayList<Appointment> getUserAppointments(String patientId) {
